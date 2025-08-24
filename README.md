@@ -1,7 +1,9 @@
 # ipfs-x
 
-使用ipfs协议，将文件上传到ipfs网络，并返回ipfs的hash值，用于分享文件。
-并且和其存储系统交互，包括但不限于
+[中文](README-zh.md)
+
+Using the IPFS protocol, upload files to the IPFS network and return the IPFS hash value for file sharing.
+It also interacts with various storage systems, including but not limited to:
 
 + Filecoin
 + Swarm
@@ -9,23 +11,23 @@
 + Arweave
 + Walrus
 
-在运行或构建本项目之前，请确保满足以下条件：
+Before running or building this project, please ensure the following conditions are met:
 
-安装 Go（版本 >= 1.18）
-安装 IPFS 并确保IPFS节点正在运行
-（可选）配置其他存储系统的访问凭证（如Pinata API密钥、Walrus账户等）
+Install Go (version >= 1.18)
+Install IPFS and ensure the IPFS node is running
+(Optional) Configure access credentials for other storage systems (such as Pinata API keys, Walrus accounts, etc.)
 
-## 基础功能
+## Basic Features
 
-+ 本地文件获取CID
-+ 本地文件上传到IPFS网络
-+ 下载IPFS网络上的文件
++ Get CID for local files
++ Upload local files to the IPFS network
++ Download files from the IPFS network
 
-## 交互功能
+## Interactive Features
 
-+ 上传文件到其他存储系统，附带IPFS的CID
++ Upload files to other storage systems with IPFS CID
 
-### 上传到 walrus
+### Upload to Walrus
 
-1. 获取文件CID
-2. 上传文件到walrus，携带metadata {cid: CID}
+1. Get the file CID
+2. Upload the file to Walrus with metadata {cid: CID}
