@@ -1,8 +1,10 @@
 package cmd
 
 import (
+	"bytes"
 	"fmt"
 	"os"
+	"path/filepath"
 
 	"github.com/ipfs/go-cid"
 	mc "github.com/multiformats/go-multicodec"
@@ -21,30 +23,78 @@ func calculateCID(c *cli.Context) error {
 	return nil
 }
 
-func calculateCIDv1(filePath string) (string, error) {
-	// 读取文件内容
-	fileData, err := os.ReadFile(filePath)
+func calculateCIDv1(path string) (string, error) {
+	// 检查路径是文件还是目录
+	info, err := os.Stat(path)
 	if err != nil {
-		fmt.Printf("读取文件失败: %s\n", err)
+		fmt.Printf("获取文件/目录信息失败: %s\n", err)
 		return "", err
+	}
+
+	var fileData []byte
+	if info.IsDir() {
+		// 处理目录
+		fileData, err = processDirectory(path)
+		if err != nil {
+			fmt.Printf("处理目录失败: %s\n", err)
+			return "", err
+		}
+	} else {
+		// 处理文件
+		fileData, err = os.ReadFile(path)
+		if err != nil {
+			fmt.Printf("读取文件失败: %s\n", err)
+			return "", err
+		}
 	}
 
 	// 创建 CID v1 的前缀
 	pref := cid.Prefix{
-		Version:  1,              // CID v1
-		Codec:    uint64(mc.Raw), // 使用 Raw 编码（可根据需求改为 DagProtobuf 等）
-		MhType:   mh.SHA2_256,    // 使用 SHA2-256 哈希
-		MhLength: -1,             // 默认长度
+		Version:  1,
+		Codec:    uint64(mc.Raw),
+		MhType:   mh.SHA2_256,
+		MhLength: -1,
 	}
 
-	// 计算文件的 CID
+	// 计算 CID
 	c, err := pref.Sum(fileData)
 	if err != nil {
 		fmt.Printf("生成 CID 失败: %s\n", err)
 		return "", err
 	}
 
-	// 输出 CID
-	fmt.Println("CID v1:", c.String())
 	return c.String(), nil
+}
+
+// processDirectory 处理目录，递归读取所有文件并计算哈希
+func processDirectory(dirPath string) ([]byte, error) {
+	var buf bytes.Buffer
+
+	err := filepath.Walk(dirPath, func(path string, info os.FileInfo, err error) error {
+		if err != nil {
+			return err
+		}
+
+		// 跳过目录本身
+		if info.IsDir() {
+			return nil
+		}
+
+		// 读取文件内容
+		data, err := os.ReadFile(path)
+		if err != nil {
+			return err
+		}
+
+		// 写入文件路径和内容到缓冲区
+		buf.WriteString(path)
+		buf.Write(data)
+
+		return nil
+	})
+	if err != nil {
+		return nil, err
+	}
+
+	return buf.Bytes(), nil
 }
