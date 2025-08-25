@@ -2,10 +2,9 @@ package cmd
 
 import (
 	"fmt"
-	"os"
 
-	"github.com/ipfs/go-ipfs-api"
-	"github.com/ipfs-x/ipfsx/utils"
+	shell "github.com/ipfs/go-ipfs-api"
+	"github.com/rickiey/ipfs-x/utils"
 	"github.com/urfave/cli/v2"
 )
 
@@ -29,7 +28,6 @@ func uploadFileToIPFS(filePath string) error {
 		return fmt.Errorf("failed to upload file to IPFS: %v", err)
 	}
 
-	fmt.Printf("File uploaded. CID: %s
-", cid)
+	fmt.Printf("File uploaded. CID: %s", cid)
 	return nil
 }

@@ -1,4 +1,4 @@
-module ipfs-x
+module github.com/rickiey/ipfs-x
 
 go 1.24
 

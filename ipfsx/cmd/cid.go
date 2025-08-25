@@ -6,9 +6,8 @@ import (
 	"github.com/ipfs/go-cid"
 	"github.com/ipfs/go-merkledag"
 	"github.com/ipfs/go-unixfs"
-	"github.com/ipfs/go-unixfs/pb"
-	"github.com/ipfs-x/ipfsx/utils"
 	"github.com/multiformats/go-multihash"
+	"github.com/rickiey/ipfs-x/utils"
 	"github.com/urfave/cli/v2"
 )
 
@@ -35,7 +34,6 @@ func calculateCIDv1(filePath string) error {
 		return fmt.Errorf("failed to calculate CID: %v", err)
 	}
 
-	fmt.Printf("CID v1: %s
-", cidV1.String())
+	fmt.Printf("CID v1: %s", cidV1.String())
 	return nil
 }

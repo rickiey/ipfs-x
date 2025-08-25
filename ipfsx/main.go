@@ -1,7 +1,7 @@
 package main
 
 import (
-	"github.com/ipfs-x/ipfsx/cmd"
+	"github.com/rickiey/ipfs-x/cmd"
 )
 
 func main() {

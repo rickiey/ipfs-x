@@ -5,7 +5,7 @@ import (
 	"os"
 	"path/filepath"
 
-	"github.com/ipfs/go-ipfs-api"
+	shell "github.com/ipfs/go-ipfs-api"
 	"github.com/urfave/cli/v2"
 )
 
@@ -20,7 +20,7 @@ func downloadFileFromIPFS(cidStr, outputPath string) error {
 	sh := shell.NewShell("localhost:5001")
 
 	// Create output directory if it doesn't exist
-	if err := os.MkdirAll(filepath.Dir(outputPath), 0755); err != nil {
+	if err := os.MkdirAll(filepath.Dir(outputPath), 0o755); err != nil {
 		return fmt.Errorf("failed to create output directory: %v", err)
 	}
 
@@ -29,7 +29,6 @@ func downloadFileFromIPFS(cidStr, outputPath string) error {
 		return fmt.Errorf("failed to download file from IPFS: %v", err)
 	}
 
-	fmt.Printf("File downloaded to: %s
-", outputPath)
+	fmt.Printf("File downloaded to: %s", outputPath)
 	return nil
 }

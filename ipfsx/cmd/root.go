@@ -82,8 +82,7 @@ func New() *cli.App {
 // Run runs the CLI application
 func Run() {
 	if err := New().Run(os.Args); err != nil {
-		fmt.Fprintf(os.Stderr, "Error: %v
-", err)
+		fmt.Fprintf(os.Stderr, "Error: %v", err)
 		os.Exit(1)
 	}
 }
