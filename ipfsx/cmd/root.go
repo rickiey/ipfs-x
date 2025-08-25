@@ -53,6 +53,12 @@ func New() *cli.App {
 						Usage:    "Path to the file",
 						Required: true,
 					},
+					&cli.BoolFlag{
+						Name:     "recursive",
+						Aliases:  []string{"r"},
+						Usage:    "Upload recursively",
+						Required: false,
+					},
 				},
 				Action: uploadToIPFS,
 			},
