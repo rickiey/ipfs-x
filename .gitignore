@@ -1,6 +1,4 @@
 test
 .vscode
 ipfsx_ui/dist
-ipfsx_ui/build
 ipfsx_ui/node_modules
-ipfsx_ui/.gitignore
