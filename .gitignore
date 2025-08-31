@@ -2,3 +2,5 @@ test
 .vscode
 ipfsx_ui/dist
 ipfsx_ui/node_modules
+ipfsx_ui/packages/*/.gitignore
+ipfsx_ui/packages/frontend/pkg
