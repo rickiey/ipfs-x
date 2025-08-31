@@ -24,15 +24,8 @@
   },
   "keywords": [
     "sui",
-    "sui-dapp",
-    "sui-dapp-starter",
     "sui-blockchain",
-    "sui-boilerplate",
-    "blockchain",
-    "boilerplate",
-    "starter",
-    "starter-template",
-    "suiware"
+    "blockchain"
   ],
   "license": "MIT",
   "workspaces": [

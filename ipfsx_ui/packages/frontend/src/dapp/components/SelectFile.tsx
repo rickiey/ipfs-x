@@ -1,9 +1,9 @@
 import { Button, Card, Progress, Text } from "@radix-ui/themes";
-import { Upload, FileIcon, CheckCircle, AlertCircle } from "lucide-react";
+import { Upload, FileIcon, CheckCircle } from "lucide-react";
 import { useState, useCallback } from "react";
 import toast from "react-hot-toast";
+import { create } from "ipfs-http-client";
 import Notification from "~~/components/Notification";
-// import { create } from 'ipfs-http-client'
 
 interface UploadResult {
   hash: string;
@@ -29,7 +29,7 @@ const SelectFile = () => {
   const uploadToIPFS = async (file: File): Promise<UploadResult> => {
     // 模拟上传进度
     const progressInterval = setInterval(() => {
-      setUploadProgress((prev) => {
+      setUploadProgress((prev: number) => {
         if (prev >= 90) {
           clearInterval(progressInterval);
           return 90;
@@ -39,45 +39,37 @@ const SelectFile = () => {
     }, 200);
 
     try {
-      // 方法1: 使用 fetch API (需要配置 CORS)
-      const formData = new FormData();
-      formData.append("file", file);
-
-      const response = await fetch("http://localhost:5001/api/v0/add", {
-        method: "POST",
-        body: formData,
+      // 创建 IPFS HTTP 客户端
+      const ipfs = create({
+        url: "http://localhost:5001",
+        timeout: 60000, // 60秒超时
       });
 
-      if (!response.ok) {
-        throw new Error(`Upload failed: ${response.statusText}`);
-      }
+      // 上传文件到 IPFS
+      const result = await ipfs.add(file, {
+        progress: (prog: number) => {
+          // 更新真实的上传进度
+          const percentage = Math.round((prog / file.size) * 100);
+          setUploadProgress(Math.min(percentage, 90));
+        },
+      });
 
-      const result = await response.json();
       clearInterval(progressInterval);
       setUploadProgress(100);
-
-      return {
-        hash: result.Hash,
-        name: file.name,
-        size: file.size,
-      };
-
-      // 方法2: 使用 IPFS HTTP Client (取消注释下面的代码并注释上面的代码)
-      /*
-      const ipfs = create({ url: 'http://localhost:5001' })
-      const result = await ipfs.add(file)
-      clearInterval(progressInterval)
-      setUploadProgress(100)
 
       return {
         hash: result.cid.toString(),
         name: file.name,
         size: file.size,
-      }
-      */
+      };
     } catch (error) {
       clearInterval(progressInterval);
-      throw error;
+      console.error("IPFS upload error:", error);
+      throw new Error(
+        error instanceof Error
+          ? `IPFS 上传失败: ${error.message}`
+          : "IPFS 上传失败: 未知错误"
+      );
     }
   };
 
