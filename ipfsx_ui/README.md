@@ -1,134 +1,107 @@
-# Sui dApp Starter - Easy-to-Use Full-Stack Sui Starter
-[![Build and Lint (frontend)](https://github.com/suiware/sui-dapp-starter/actions/workflows/build_and_lint.yaml/badge.svg)](https://github.com/suiware/sui-dapp-starter/actions/workflows/build_and_lint.yaml)
-[![Discord chat](https://img.shields.io/discord/1237259509366521866.svg?logo=discord&style=flat-square)](https://discord.com/invite/HuDPpXz4Hx)
+# IPFS-X Frontend 项目文档
 
-![Spoiler](https://repository-images.githubusercontent.com/794883099/f0937c6b-c021-41db-b44a-a287b29111c3)
+## 项目概述
 
-[Won the 1st place in the Randomness category of the Sui Overflow 2024 hackathon](https://blog.sui.io/2024-sui-overflow-hackathon-winners/)
+IPFS-X 前端项目是一个基于 React 和 TypeScript 构建的 Sui 区块链 dApp，集成了 IPFS 功能，用于在去中心化网络上存储和检索数据。该项目使用了 Mysten 的 dApp 工具包和 SuiWare 套件，提供现代化的用户界面和流畅的交互体验。
 
-## Motivation
+## 项目结构
 
-Most of the Sui starters I found were either very basic or one-sided (frontend or backend). Thanks to my experience with various full-stack starters and templates, I knew how to do better, so I started this template with the goal of providing all basic tools and components for you to focus on your business logic from day one and not spend weeks on creating your app skeleton. // [@kkomelin](https://github.com/kkomelin)
-
-## Features
-
-- **[Suibase](https://suibase.io/)**: Painless work with the networks and system dependencies
-- **[Local Sui Explorer](https://github.com/suiware/sui-explorer)**: Browse your transactions and objects locally
-- **pnpm**: More efficient package management for monorepos
-- **TypeScript**: Less error-prone JavaScript
-- **React or Next.js**: Choose a template with a framework of your choice
-- **Tailwind CSS**: Utility-first CSS for more efficient styling
-- **Vite + SWC**: Faster app bundling and optimizing
-- **Radix UI**: Accessible React components to prototype quicker 
-- **Sui dApp Kit**: All you need to work with Sui network on frontend
-- **[@suiware/kit](https://www.npmjs.com/package/@suiware/kit)**: Useful react primitives, such as useTransact, useNetworkType, NetworkType, useBalance, Balance, useFaucet, Faucet and more
-- **Frontend Deployment**: [Firebase](https://sui-dapp-starter.dev/docs/frontend/deployment/firebase), [Walrus Sites](https://sui-dapp-starter.dev/docs/frontend/deployment/walrus), [Arweave](https://sui-dapp-starter.dev/docs/frontend/deployment/arweave)
-- **One-liner Install**: Just `pnpm create sui-dapp@latest`
-- **[Demo app](https://demo.sui-dapp-starter.dev/)**: Default Greeting (React) template
-
-## Prerequisites
-
-Before you begin, install the following:
-
-- [Suibase](https://suibase.io/how-to/install.html)
-- [Node (>= 20)](https://nodejs.org/en/download/)
-- [pnpm (>= 9)](https://pnpm.io/installation)
-
-## Installation
-
-### Option 1. Use the Github template
-
-1. [Create a new project from the template](https://github.com/new?template_name=sui-dapp-starter&template_owner=suiware&name=my-sui-dapp).
-
-2. Clone the resulting repo locally.
-
-3. Choose a template by running the corresponding init command:
-
-| Template | Init command |
-| --- | --- |
-| Greeting (React) | `pnpm init:template:greeting-react` |
-| Greeting (Next.js) | `pnpm init:template:greeting-next` |
-| Counter (React) | `pnpm init:template:counter-react` |
-
-[Template Guide](https://sui-dapp-starter.dev/docs/templates)
-
-### Option 2. Use CLI
-
-```bash
-pnpm create sui-dapp@latest
+```
+src/
+├── assets/          # 静态资源文件
+│   └── logo.svg     # 应用程序logo
+│
+├── components/      # 通用UI组件
+│   ├── AnimatedBackground/  # 动画背景组件
+│   ├── App.tsx              # 主应用组件
+│   ├── CustomConnectButton.tsx  # 自定义连接钱包按钮
+│   ├── Loading.tsx          # 加载指示器
+│   ├── NetworkSupportChecker.tsx # 网络支持检查器
+│   ├── Notification.tsx     # 通知组件
+│   ├── ThemeSwitcher.tsx   # 主题切换器
+│   └── layout/             # 布局相关组件
+│       ├── Body.tsx       # 页面主体
+│       ├── Extra.tsx      # 额外内容
+│       ├── Footer.tsx     # 页脚
+│       └── Header.tsx     # 页头
+│
+├── config/          # 配置文件
+│   ├── main.ts            # 主配置
+│   ├── network.ts         # 网络配置
+│   └── themes.ts          # 主题配置
+│
+├── dapp/            # dApp 特定组件和功能
+│   ├── components/        # dApp 特定组件
+│   │   ├── GreetingForm.tsx  # 问候表单组件
+│   │   └── Emoji.tsx         # 表情符号组件
+│   ├── config/            # dApp 配置
+│   ├── helpers/           # dApp 辅助函数
+│   │   └── transactions.ts # 交易相关函数
+│   ├── hooks/             # dApp 自定义钩子
+│   │   └── useOwnGreeting.tsx # 获取用户问候语的自定义钩子
+│   ├── pages/             # 页面组件
+│   │   └── IndexPage.tsx # 主页
+│   └── types/             # dApp 类型定义
+│
+├── helpers/         # 通用辅助函数
+│   ├── misc.ts           # 杂项辅助函数
+│   ├── network.ts        # 网络相关辅助函数
+│   ├── notification.tsx  # 通知辅助函数
+│   └── theme.ts          # 主题辅助函数
+│
+├── hooks/           # 全局自定义钩子
+│   └── useNetworkConfig.tsx # 网络配置钩子
+│
+├── providers/       # 上下文提供者
+│   └── ThemeProvider.tsx # 主题提供者
+│
+├── styles/          # 样式文件
+│   └── index.css         # 全局样式
+│
+├── types/           # 全局类型定义
+│   ├── ENetwork.ts       # 网络类型
+│   ├── ENetworksWithFaucet.ts # 支持水龙头网络的类型
+│   └── TTheme.ts         # 主题类型
+│
+├── main.tsx         # 应用程序入口点
+└── vite-env.d.ts    # Vite 环境类型定义
 ```
 
-This way you'll be able to configure the project step-by-step.
+## 核心功能
 
-## Usage
+1. **钱包集成**：支持 Sui 钱包连接，包括自定义连接按钮
+2. **IPFS 集成**：与 IPFS 网络集成，用于存储和检索去中心化数据
+3. **NFT 生成**：基于用户输入生成 NFT，并显示在界面上
+4. **网络管理**：支持多网络切换，包括本地网络和测试网络
+5. **主题切换**：支持明暗主题切换
+6. **通知系统**：提供交易状态通知
 
-#### 1. Run the local Sui network:
+## 主要依赖项
 
-```bash
-pnpm localnet:start
-```
+- **React 19.1.0**：前端框架
+- **TypeScript**：静态类型检查
+- **Vite**：构建工具
+- **Tailwind CSS**：样式框架
+- **Radix UI Themes**：UI 组件库
+- **Mysten dApp Kit**：Sui dApp 开发工具包
+- **SuiWare Kit**：Sui 开发工具套件
+- **React Query**：数据获取和状态管理
 
-Local Sui Explorer will be available on [localhost:9001](http://localhost:9001/)
+## 开发脚本
 
-#### 2. Deploy the demo contract to the local network:
+- `npm run dev`：启动开发服务器
+- `npm run build`：构建生产版本
+- `npm run lint`：运行 ESLint 检查
+- `npm run preview`：预览生产构建
+- `npm run format`：使用 Prettier 格式化代码
 
-```bash
-pnpm localnet:deploy
-```
+## 部署选项
 
-_This command skips dependency verifications to prevent dependency version mismatch issues, which are caused by local and remote Sui version mismatch. The deploy commands for devnet, testnet and mainnet do perform such verifications._
+项目支持多种部署方式：
+- Firebase 托管
+- Walrus 测试网/主网
+- Arweave 去中心化网络
 
-#### 3. Switch to the local network in your browser wallet settings.
+## 请参考
 
-#### 4. Fund your localnet account/address:
-
-You have a few options here:
-
-a) Use the Faucet button integrated into your wallet (e.g. Sui Wallet).
-
-b) Copy the localnet address from your wallet and run the following in your console:
-
-```bash
-pnpm localnet:faucet 0xYOURADDRESS
-```
-
-c) Run the app and use the Faucet button in the footer.
-
-#### 5. Run the app:
-
-```bash
-pnpm start
-```
-Find all commands in the [documentation](https://sui-dapp-starter.dev/docs/misc/commands/).
-
-## Test
-
-#### Backend
-
-```bash
-pnpm test
-```
-
-## Docs & Support
-
-- [Sui dApp Starter Docs](https://sui-dapp-starter.dev/docs)
-- [Available PNPM Commands](https://sui-dapp-starter.dev/docs/misc/commands/)
-- [@suiware/kit Docs](https://www.npmjs.com/package/@suiware/kit)
-- [Discord Support](https://discord.com/invite/HuDPpXz4Hx)  
-
-## Useful Links
-
-- [Useful VSCode Extensions](./.vscode/extensions.json)
-- [Suibase Docs](https://suibase.io/intro.html)
-- [Move Book](https://move-book.com/)
-- [Sui Move: Code Conventions](https://docs.sui.io/concepts/sui-move-concepts/conventions)
-- [@mysten/create-dapp - official starter](https://www.npmjs.com/package/@mysten/create-dapp)
-- [Awesome Sui](https://github.com/sui-foundation/awesome-sui)
-
-## License & Copyright
-
-Copyright (c) 2024 Konstantin Komelin and other contributors
-
-Code is licensed under [MIT](https://github.com/suiware/sui-dapp-starter?tab=MIT-1-ov-file)
-
-SVG Graphics used for NFTs is licensed under [CC-BY 4.0](https://github.com/suiware/sui-dapp-starter?tab=CC-BY-4.0-2-ov-file)
+请查看根项目 [README](../../README.md) 获取更多项目信息。
